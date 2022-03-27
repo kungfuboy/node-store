@@ -1,4 +1,1 @@
-{
-  "reliable": {},
-  "unreliable": {}
-}
+{"reliable":{},"unreliable":{"eo-module-levi":{"name":"eo-module-levi","version":"1.0.0","author":"Eolink","main":"index.js","description":"A eo-module-levi module."}}}
