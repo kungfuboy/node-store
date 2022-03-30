@@ -71,7 +71,22 @@ router.post('/unreliable', (ctx) => {
   json.unreliable[name] = json.reliable[name]
   delete json.reliable[name]
   fs.writeFileSync('./data.json', JSON.stringify(json))
-  ctx.request.body = responseBody(0, 'Unreliable success.')
+  ctx.body = responseBody(0, 'Unreliable success.')
+})
+
+router.get('/list', (ctx) => {
+  const jsonString = fs.readFileSync('./data.json', 'utf8')
+  const json = JSON.parse(jsonString)
+  const data = json.reliable
+  ctx.body = { code: 0, data: Object.values(data) }
+})
+
+router.get('/detail/:name', (ctx) => {
+  const jsonString = fs.readFileSync('./data.json', 'utf8')
+  const json = JSON.parse(jsonString)
+  const { name } = ctx.request.params
+  const data = json.reliable[name]
+  ctx.body = { code: 0, data }
 })
 
 // Router middleware
