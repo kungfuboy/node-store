@@ -42,7 +42,7 @@ router.post("/upload", (ctx) => {
   }
   json.unreliable[name] = { name, version, author, main, ...it };
   fs.writeFileSync("./data.json", json);
-  ctx.request.body = successBody(0, "Save data success.");
+  ctx.request.body = responseBody(0, "Save data success.");
 });
 
 router.put("/reliable/:name", (ctx) => {
@@ -63,7 +63,14 @@ router.put("/unreliable/:name", (ctx) => {
   ctx.request.body = responseBody(0, "Unreliable success.");
 });
 
+router.get("/detail/:name", (ctx) => {
+  const { name } = ctx.params;
+  const json = fs.readFileSync("./data.json", "utf8");
+  const list = json.reliable;
+  const [plugin] = Object.values(list).filter((it) => it.name === name);
+  ctx.request.body = { ...responseBody(0, "Search success"), data: plugin };
+});
 // Router middleware
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(3000, () => console.log("Server started..."));
+app.listen(3333, () => console.log("Server started..."));
