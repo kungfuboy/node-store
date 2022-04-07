@@ -21,6 +21,10 @@ app.use(bodyParser())
 const responseBody = (code, msg) => ({ code, msg })
 
 router.get('/', async (ctx) => {
+  ctx.body = 'Empty'
+})
+
+router.get('/hello', async (ctx) => {
   ctx.body = 'Hello'
 })
 
