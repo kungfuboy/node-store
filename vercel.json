@@ -4,6 +4,10 @@
     {
       "src": "*",
       "dest": "api/index.js"
+    },
+    {
+      "src": "/view",
+      "dest": "app.js"
     }
   ]
 }
