@@ -1,11 +1,10 @@
 {
-    "version": 2,
-    "env": {
-    },
-    "routes": [
-      {
-        "src": "/",
-        "dest": "api/index.js"
-      }
-    ]
-  }
+  "version": 2,
+  "env": {},
+  "routes": [
+    {
+      "src": "/*",
+      "dest": "api/index.js"
+    }
+  ]
+}
