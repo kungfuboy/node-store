@@ -81,19 +81,26 @@ router.get("/list", (ctx) => {
   ctx.body = { code: 0, data: Object.values(data) };
 });
 
-router.get("/detail/:name", (ctx) => {
-  const jsonString = fs.readFileSync("./data.json", "utf8");
-  const json = JSON.parse(jsonString);
-  const { name } = ctx.request.params;
-  const data = json.reliable[name];
-  ctx.body = { code: 0, data };
-});
+// router.get("/detail/:name", (ctx) => {
+//   const jsonString = fs.readFileSync("./data.json", "utf8");
+//   const json = JSON.parse(jsonString);
+//   const { name } = ctx.request.params;
+//   const data = json.reliable[name];
+//   ctx.body = { code: 0, data };
+// });
 
 router.get("/detail/:name", (ctx) => {
   const { name } = ctx.params;
-  const json = fs.readFileSync("./data.json", "utf8");
+  const jsonString = fs.readFileSync("./data.json", "utf8");
+  const json = JSON.parse(jsonString);
   const list = json.reliable;
   const [plugin] = Object.values(list).filter((it) => it.name === name);
+  if (!plugin) {
+    ctx.request.body = responseBody(-1, "Search Nothing");
+    return;
+  }
+  console.log("==>", plugin);
+  // console.log(JSON.stringify(plugin, null, 2));
   ctx.request.body = { ...responseBody(0, "Search success"), data: plugin };
 });
 // Router middleware
