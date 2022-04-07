@@ -6,5 +6,10 @@
       "src": "/(.*)",
       "dest": "app.js"
     }
-  ]
+  ],
+  "functions": {
+    "api.js": {
+      "includeFiles": "data.json"
+    }
+  }
 }
