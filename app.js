@@ -1,8 +1,7 @@
 const Koa = require('koa')
 const json = require('koa-json')
 const Router = require('koa-router')
-const fs = require('fs')
-const path = require('path')
+const { readFileSync, writeFileSync } = require('fs')
 const bodyParser = require('koa-bodyparser')
 const cors = require('@koa/cors')
 
@@ -29,12 +28,12 @@ router.get('/hello', async (ctx) => {
 })
 
 router.get('/view', async (ctx) => {
-  const jsonString = fs.readFileSync('./data.json', 'utf8')
+  const jsonString = readFileSync('./data.json', 'utf8')
   ctx.body = JSON.parse(jsonString)
 })
 
 router.post('/upload', (ctx) => {
-  const jsonString = fs.readFileSync('./data.json', 'utf8')
+  const jsonString = readFileSync('./data.json', 'utf8')
   const json = JSON.parse(jsonString)
   const { name, version, main, author, ...it } = ctx.request.body
   if (!name) {
@@ -50,13 +49,13 @@ router.post('/upload', (ctx) => {
     ctx.request.body = responseBody(-1, `You need sumbit 'main' data.`)
   }
   json.unreliable[name] = { name, version, author, main, ...it }
-  fs.writeFileSync('./data.json', JSON.stringify(json))
+  writeFileSync('./data.json', JSON.stringify(json))
   ctx.body = responseBody(0, 'Save data success.')
 })
 
 router.post('/reliable', (ctx) => {
   const { name } = ctx.request.body
-  const jsonString = fs.readFileSync('./data.json', 'utf8')
+  const jsonString = readFileSync('./data.json', 'utf8')
   const json = JSON.parse(jsonString)
   if (!json.unreliable[name]) {
     ctx.body = responseBody(-1, 'Not found in unreliable list.')
@@ -64,13 +63,13 @@ router.post('/reliable', (ctx) => {
   }
   json.reliable[name] = json.unreliable[name]
   delete json.unreliable[name]
-  fs.writeFileSync('./data.json', JSON.stringify(json))
+  writeFileSync('./data.json', JSON.stringify(json))
   ctx.body = responseBody(0, 'Reliable success.')
 })
 
 router.post('/unreliable', (ctx) => {
   const { name } = ctx.request.body
-  const jsonString = fs.readFileSync('./data.json', 'utf8')
+  const jsonString = readFileSync('./data.json', 'utf8')
   const json = JSON.parse(jsonString)
   if (!json.reliable[name]) {
     ctx.body = responseBody(-1, 'Not found in reliable list.')
@@ -78,12 +77,12 @@ router.post('/unreliable', (ctx) => {
   }
   json.unreliable[name] = json.reliable[name]
   delete json.reliable[name]
-  fs.writeFileSync('./data.json', JSON.stringify(json))
+  writeFileSync('./data.json', JSON.stringify(json))
   ctx.body = responseBody(0, 'Unreliable success.')
 })
 
 router.get('/list', (ctx) => {
-  const jsonString = fs.readFileSync('./data.json', 'utf8')
+  const jsonString = readFileSync('./data.json', 'utf8')
   const json = JSON.parse(jsonString)
   const data = json.reliable
   ctx.body = { code: 0, data: Object.values(data) }
@@ -91,7 +90,7 @@ router.get('/list', (ctx) => {
 
 router.get('/detail/:name', (ctx) => {
   const { name } = ctx.params
-  const jsonString = fs.readFileSync('./data.json', 'utf8')
+  const jsonString = readFileSync('./data.json', 'utf8')
   const json = JSON.parse(jsonString)
   const list = json.reliable
   const [plugin] = Object.values(list).filter((it) => it.name === name)
