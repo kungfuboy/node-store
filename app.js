@@ -93,11 +93,9 @@ router.get('/detail/:name', (ctx) => {
   }
   console.log('==>', plugin)
   // console.log(JSON.stringify(plugin, null, 2));
-  ctx.request.body = { ...responseBody(0, 'Search success'), data: plugin }
+  ctx.body = { ...responseBody(0, 'Search success'), data: plugin }
 })
 // Router middleware
 app.use(router.routes()).use(router.allowedMethods())
 
 app.listen(3333, () => console.log('Server started...'))
-
-module.exports = app
