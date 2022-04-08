@@ -106,6 +106,6 @@ router.get('/detail/:name', (ctx) => {
 // Router middleware
 app.use(router.routes()).use(router.allowedMethods())
 
-app.listen(3000, () => console.log('Server started...'))
+app.listen(3333, () => console.log('Server started...'))
 
 module.exports = app

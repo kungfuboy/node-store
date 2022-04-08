@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "start": "pm2 start app.js",
+    "stop": "pm2 stop all"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +19,7 @@
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-json": "^2.0.2",
-    "koa-router": "^10.1.1"
+    "koa-router": "^10.1.1",
+    "pm2": "^5.2.0"
   }
 }
