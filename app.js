@@ -20,14 +20,6 @@ app.use(bodyParser())
 
 const responseBody = (code, msg) => ({ code, msg })
 
-router.get('/', async (ctx) => {
-  ctx.body = 'Empty'
-})
-
-router.get('/hello', async (ctx) => {
-  ctx.body = 'Hello'
-})
-
 router.get('/view', async (ctx) => {
   const jsonString = readFileSync(join(__dirname, 'data.json'), 'utf8')
   ctx.body = JSON.parse(jsonString)
