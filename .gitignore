@@ -1,3 +1,5 @@
 node_modules
 .Ds_Store
 *-debug.log
+.vercel
+data.json
