@@ -81,14 +81,6 @@ router.get("/list", (ctx) => {
   ctx.body = { code: 0, data: Object.values(data) };
 });
 
-// router.get("/detail/:name", (ctx) => {
-//   const jsonString = fs.readFileSync("./data.json", "utf8");
-//   const json = JSON.parse(jsonString);
-//   const { name } = ctx.request.params;
-//   const data = json.reliable[name];
-//   ctx.body = { code: 0, data };
-// });
-
 router.get("/detail/:name", (ctx) => {
   const { name } = ctx.params;
   const jsonString = fs.readFileSync("./data.json", "utf8");
