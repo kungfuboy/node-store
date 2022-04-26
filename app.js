@@ -95,7 +95,6 @@ router.get("/detail/:name", (ctx) => {
     ctx.request.body = responseBody(-1, "Search Nothing");
     return;
   }
-  console.log("==>", plugin);
   // console.log(JSON.stringify(plugin, null, 2));
   ctx.body = { ...responseBody(0, "Search success"), data: plugin };
 });
