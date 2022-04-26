@@ -1,5 +1,6 @@
 const { readFileSync, writeFileSync } = require("fs");
 const { join } = require("path");
+const fs = require("fs");
 const Koa = require("koa");
 const json = require("koa-json");
 const Router = require("koa-router");
@@ -87,7 +88,7 @@ router.get("/list", (ctx) => {
 
 router.get("/detail/:name", (ctx) => {
   const { name } = ctx.params;
-  const jsonString = fs.readFileSync("./data.json", "utf8");
+  const jsonString = readFileSync("./data.json", "utf8");
   const json = JSON.parse(jsonString);
   const list = json.reliable;
   const [plugin] = Object.values(list).filter((it) => it.name === name);
