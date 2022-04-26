@@ -5,9 +5,12 @@ const json = require("koa-json");
 const Router = require("koa-router");
 const bodyParser = require("koa-bodyparser");
 const cors = require("@koa/cors");
+const { validKeys } = require("./utils.js");
 
 const app = new Koa();
 const router = new Router();
+
+const responseBody = (code, msg) => ({ code, msg });
 
 // CORS middleware
 app.use(cors());
@@ -18,8 +21,6 @@ app.use(bodyParser());
 
 // app.use(async ctx => ctx.body = {msg: 'hello'})
 
-const responseBody = (code, msg) => ({ code, msg });
-
 router.get("/view", async (ctx) => {
   const jsonString = readFileSync(join(__dirname, "./data.json"), "utf8");
   ctx.body = JSON.parse(jsonString);
@@ -28,20 +29,22 @@ router.get("/view", async (ctx) => {
 router.post("/upload", (ctx) => {
   const jsonString = readFileSync(join(__dirname, "./data.json"), "utf8");
   const json = JSON.parse(jsonString);
-  const { name, version, main, author, ...it } = ctx.request.body;
-  if (!name) {
-    ctx.request.body = responseBody(-1, `You need sumbit 'name' data.`);
+  const { name, ...it } = ctx.request.body;
+  const errList = validKeys(ctx.request.body)([
+    "name",
+    "version",
+    "author",
+    "main",
+    "logo",
+    "description",
+    "moduleID",
+    "moduleName",
+    "moduleType"
+  ]);
+  if (errList.length) {
+    ctx.body = responseBody(-1, errList[0]);
   }
-  if (!version) {
-    ctx.request.body = responseBody(-1, `You need sumbit 'version' data.`);
-  }
-  if (!author) {
-    ctx.request.body = responseBody(-1, `You need sumbit 'author' data.`);
-  }
-  if (!main) {
-    ctx.request.body = responseBody(-1, `You need sumbit 'main' data.`);
-  }
-  json.unreliable[name] = { name, version, author, main, ...it };
+  json.unreliable[name] = { name, ...it };
   writeFileSync(join(__dirname, "./data.json"), JSON.stringify(json));
   ctx.body = responseBody(0, "Save data success.");
 });
