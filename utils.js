@@ -3,7 +3,7 @@ const validKeys = (data) => {
     list
       .map((it) => {
         const key = data[it];
-        return key || `You need sumbit '${it}' data.`;
+        return key ? false : `You need sumbit '${it}' data.`;
       })
       .filter((it) => it);
 };
