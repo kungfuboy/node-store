@@ -43,6 +43,7 @@ router.post("/upload", (ctx) => {
   ]);
   if (errList.length) {
     ctx.body = responseBody(-1, errList[0]);
+    return;
   }
   json.unreliable[name] = { name, ...it };
   writeFileSync(join(__dirname, "./data.json"), JSON.stringify(json));
