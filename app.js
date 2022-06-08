@@ -102,4 +102,4 @@ router.get("/detail/:name", (ctx) => {
 // Router middleware
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(3333, () => console.log("Server started..."));
+app.listen(80, () => console.log("Server started..."));
